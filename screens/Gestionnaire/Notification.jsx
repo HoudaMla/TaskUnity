@@ -17,11 +17,11 @@ export default function Notification() {
       try {
         const storedUserId = await AsyncStorage.getItem("userId");
         if (storedUserId) {
-          const responseUser = await fetch(`http://192.168.1.3:3000/getUser/${storedUserId}`);
+          const responseUser = await fetch(`http://192.168.1.11:3000/getUser/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
           const respname = userData?.Name;
-          const response = await fetch(`http://192.168.1.3:3000/project/${respname}`);
+          const response = await fetch(`http://192.168.1.11:3000/project/${respname}`);
           const data = await response.json();
           setNotification(data);
         }

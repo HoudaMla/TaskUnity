@@ -29,7 +29,7 @@ export default function AddNewUser() {
 
   const handleAdd = async () => {
     try {
-        const response = await fetch("http://192.168.1.5:3000/create", {
+        const response = await fetch("http://192.168.1.11:3000/create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

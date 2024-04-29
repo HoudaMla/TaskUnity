@@ -21,6 +21,7 @@ import MemList from '../screens/admin/MembersList';
 import HomeResp from '../screens/Gestionnaire/Home.jsx';
 import Notification from '../screens/Gestionnaire/Notification';
 import Project from'../screens/Gestionnaire/ProjectDetails';
+import Details from'../screens/Gestionnaire/Details';
 
 
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -45,6 +46,7 @@ export default function AppNavigation() {
         <Stack.Screen name="Profile" component={ProfileScreen} />
          <Stack.Screen name="HomeResp" component={RespTab} />
         <Stack.Screen name="Project" component={Project} />  
+        <Stack.Screen name="Details" component={Details} />  
 
       </Stack.Navigator>
     );

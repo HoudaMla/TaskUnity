@@ -31,7 +31,7 @@ export default function AddProject() {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://192.168.1.3/resp/getR");
+      const response = await fetch("http://192.168.1.11/resp/getR");
       const data = await response.json();
       const formattedItems = data.map(item => ({
         label: item.Name,
@@ -70,7 +70,7 @@ export default function AddProject() {
 
   const handleAdd = async () => {
     try {
-      const response = await fetch("http://192.168.1.3:3000/project/create", {
+      const response = await fetch("http://192.168.1.11:3000/project/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

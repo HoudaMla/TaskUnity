@@ -21,7 +21,7 @@ const CalendarScreen = () => {
 
   const addEvent = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/meet/create', {
+      const response = await fetch('http://192.168.1.11:3000/meet/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const CalendarScreen = () => {
 
   const fetchEventsFromBackend = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/meet/getmeet');
+      const response = await fetch('http://192.168.1.11:3000/meet/getmeet');
       const data = await response.json();
       console.log('Response from backend:', data);
       const eventsObject = data.reduce((acc, event) => {
@@ -80,7 +80,7 @@ const CalendarScreen = () => {
   const fetchResponsables = async () => {
     try {
       const type = "responsible";
-      const response = await fetch(`http://192.168.1.3:3000/user/${type}`);
+      const response = await fetch(`http://192.168.1.11:3000/user/${type}`);
       const data = await response.json();
       const formattedItems = data.map(item => ({
         label: item.Name,
@@ -95,7 +95,7 @@ const CalendarScreen = () => {
 
   const deleteEvent = async (eventId) => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/meet/delete/${eventId}`, {
+      const response = await fetch(`http://192.168.1.11:3000/meet/delete/${eventId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -130,7 +130,7 @@ const CalendarScreen = () => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{ borderTopStartRadius: 49, backgroundColor: "#fff", borderColor: "#132a13", borderWidth: 3, width: '100%', height: '90%', marginTop: 30 }}>
+      <View style={{ borderTopStartRadius: 49, backgroundColor: "#fff", width: '100%', height: '90%', marginTop: 30 }}>
         <View style={styles.calendarContainer}>
           <Calendar
             onDayPress={(day) => setAgendaData(prevState => ({ ...prevState, selectedDate: day.dateString }))}

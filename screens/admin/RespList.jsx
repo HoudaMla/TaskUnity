@@ -28,7 +28,7 @@ export default function RespList() {
   const fetchResponsables = async () => {
     try {
       const type = "responsible";
-      const response = await fetch(`http://192.168.1.3:3000/user/${type}`);
+      const response = await fetch(`http://192.168.1.11:3000/user/${type}`);
       const data = await response.json();
       setResponsables(data);
     } catch (error) {
@@ -53,7 +53,7 @@ export default function RespList() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/delete/${id}`, {
+      const response = await fetch(`http://192.168.1.11:3000/delete/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -69,7 +69,7 @@ export default function RespList() {
 
   const handleSaveEdit = async () => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/update/${editedResponsibleId}`, { 
+      const response = await fetch(`http://192.168.1.11:3000/update/${editedResponsibleId}`, { 
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
