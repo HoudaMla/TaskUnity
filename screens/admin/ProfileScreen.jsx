@@ -27,7 +27,7 @@ const ProfileScreen = () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
         if (storedUserId) {
-          const response = await fetch(`http://192.168.1.11:3000/getUser/${storedUserId}`);
+          const response = await fetch(`http://192.168.1.11:3003/getUser/${storedUserId}`);
           const userData = await response.json();
           setUserInformation(userData);
         }
@@ -53,7 +53,7 @@ const ProfileScreen = () => {
     try {
       const storedUserId = userInformation?._id;
 
-      const response = await fetch(`http://192.168.1.11:3000/admin/update/${storedUserId}`, { 
+      const response = await fetch(`http://192.168.1.11:3003/admin/update/${storedUserId}`, { 
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

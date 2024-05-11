@@ -17,11 +17,11 @@ export default function Notification() {
       try {
         const storedUserId = await AsyncStorage.getItem("userId");
         if (storedUserId) {
-          const responseUser = await fetch(`http://192.168.1.11:3000/getUser/${storedUserId}`);
+          const responseUser = await fetch(`http://192.168.1.11:3003/getUser/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
           const respname = userData?.Name;
-          const response = await fetch(`http://192.168.1.11:3000/project/${respname}`);
+          const response = await fetch(`http://192.168.1.11:3003/project/${respname}`);
           const data = await response.json();
           setNotification(data);
         }
@@ -40,7 +40,7 @@ export default function Notification() {
   const handlePress = async (projectId) => {
     try {
       await AsyncStorage.setItem('projectId', projectId.toString());
-      setClickedProjectId(projectId); // Update clicked project ID
+      setClickedProjectId(projectId); 
       navigation.navigate("Project");
     } catch (error) {
       console.error("Error setting project ID:", error);
@@ -66,7 +66,7 @@ export default function Notification() {
 
         <View style={styles.cardContainer}>
           {Notification.map((notif, index) => (
-            <TouchableOpacity key={index} onPress={() => handlePress(notif._id)}>
+            <TouchableOpacity style={{marginTop:20}} key={index} onPress={() => handlePress(notif._id)}>
               <Card style={[styles.card, notif._id === clickedProjectId ? styles.clickedCard : null]}>
                 <View style={styles.rowView}>
                   <ImageBackground
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderRadius: 8,
     width: "84%",
-    marginTop: 40,
     width: 350,
     marginRight: 35,
     backgroundColor: "#faf3dd"

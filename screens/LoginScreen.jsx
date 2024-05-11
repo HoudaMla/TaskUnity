@@ -25,7 +25,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
         password: password,
       };
       
-      axios.post('http://192.168.1.3:3000/login', userData)
+      axios.post('http://192.168.1.11:3003/login', userData)
         .then(res => {
           console.log(res.data);
           if (res.data.status === 'ok') {
@@ -109,7 +109,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
                 onPress={handleLogin}
                 style={{
                   padding: Spacing * 2,
-                  backgroundColor: Colors.primary,
+                  backgroundColor: COLORS.hey,
                   marginVertical: Spacing * 3,
                   borderRadius: Spacing,
                   shadowColor: Colors.primary,

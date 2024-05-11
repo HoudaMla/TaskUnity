@@ -20,11 +20,11 @@ export default function Home() {
         const storedUserId = await AsyncStorage.getItem("userId");
         if (storedUserId) {
           setUserId(storedUserId);
-          const responseUser = await fetch(`http://192.168.1.11:3000/getUser/${storedUserId}`);
+          const responseUser = await fetch(`http://192.168.1.11:3003/getUser/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
         }
-        const responseProjects = await fetch('http://192.168.1.11:3000/project/getP');
+        const responseProjects = await fetch('http://192.168.1.11:3003/project/getP');
         const projectData = await responseProjects.json();
         setProjects(projectData);
       } catch (error) {
@@ -40,6 +40,7 @@ export default function Home() {
   };
   const handleProjectDetails = (projectId) => {
     navigation.navigate("Details", { projectId });
+    console.log(projectId,"ptoh")
   };
   return (
     <SafeAreaView>
@@ -112,7 +113,7 @@ export default function Home() {
                     marginLeft:5,
                     marginRight:5,
                   }}
-                  onPress={() => handleProjectDetails(project.id)} 
+                  onPress={() => handleProjectDetails(project._id)} 
 
                 >
                     <View

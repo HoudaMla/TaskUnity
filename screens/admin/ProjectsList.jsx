@@ -19,7 +19,7 @@ export default function MembersList() {
 
   const fetchResponsables = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/project/getP');
+      const response = await fetch('http://192.168.1.11:3003/project/getP');
       const data = await response.json();
       setResponsables(data);
     } catch (error) {
@@ -32,7 +32,7 @@ export default function MembersList() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/project/deleteP/${id}`, {
+      const response = await fetch(`http://192.168.1.11:3003/project/deleteP/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {

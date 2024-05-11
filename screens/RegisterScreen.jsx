@@ -19,7 +19,7 @@ export default function RegisterScreen() {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch("http://192.168.1.3:3000/admin/create", {
+      const response = await fetch("http://192.168.1.11:3000/admin/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

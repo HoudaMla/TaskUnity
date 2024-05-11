@@ -31,11 +31,11 @@ export default function HomeScreen() {
         const storedUserId = await AsyncStorage.getItem("userId");
         if (storedUserId) {
           setUserId(storedUserId);
-          const responseUser = await fetch(`http://192.168.1.11:3000/getUser/${storedUserId}`);
+          const responseUser = await fetch(`http://192.168.1.11:3003/getUser/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
         }
-        const responseProjects = await fetch('http://192.168.1.11:3000/project/getP');
+        const responseProjects = await fetch('http://192.168.1.11:3003/project/getP');
         const projectData = await responseProjects.json();
         setProjects(projectData);
       } catch (error) {
@@ -48,7 +48,7 @@ export default function HomeScreen() {
 
   const fetchProjectDetails = async (projectId) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/project/getP/${projectId}`);
+      const response = await fetch(`http://192.168.1.11:3003/project/getP/${projectId}`);
       const projectDetails = await response.json();
       setSelectedProject(projectDetails);
       setModalVisible(true);

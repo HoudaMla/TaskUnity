@@ -26,11 +26,10 @@ export default function ProjectDetails() {
         const storedUserId = await AsyncStorage.getItem("projectId");
         if (storedUserId) {
           setprojectId(storedUserId);
-          const responseUser = await fetch(`http://192.168.1.11:3000/project/getP/${storedUserId}`);
+          const responseUser = await fetch(`http://192.168.1.11:3003/project/getP/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
         }
-       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -44,7 +43,7 @@ export default function ProjectDetails() {
   const fetchResponsables = async () => {
     try {
       const type = "member";
-      const response = await fetch(`http://192.168.1.11:3000/user/${type}`);
+      const response = await fetch(`http://192.168.1.11:3003/user/${type}`);
       const data = await response.json();
       const formattedItems = data.map(item => ({
         label: item.Name,
@@ -150,7 +149,7 @@ export default function ProjectDetails() {
           >
             <FontAwesome5 name="plus" size={20} color="#fff" style={{ marginTop: 5 }} />
           </TouchableOpacity>   
-          <Button title="Add" onPress={handleAddButtonClick} />
+          {/* <Button title="Add" onPress={handleAddButtonClick} /> */}
           </View>
           
         </View>
