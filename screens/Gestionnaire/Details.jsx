@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLORS from '../../config/COLORS';
-import { useRoute } from '@react-navigation/native';
-import { Card, TextInput } from 'react-native-paper';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { Card } from 'react-native-paper';
+import RNPickerSelect from 'react-native-picker-select';
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+import Colors from "../../constants/Colors";
+import Font from "../../constants/Font";
 
 const Details = () => {
   const route = useRoute(); 
   const projectId = route.params?.projectId;
   const [projectDetails, setProjectDetails] = useState(null);
+  const navigation = useNavigation();
+  const [selectedValue, setSelectedValue] = useState('');
+  const [tasks, setTasks] = useState([]); 
+
+  const items = [
+    { label: 'Done', value: 'Done' },
+    { label: 'Pending', value: 'Pending' },
+  ];
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -17,6 +30,7 @@ const Details = () => {
         if (response.ok) {
           const data = await response.json();
           setProjectDetails(data);
+          setTasks(data.Tasks); 
         } else {
           console.error('Failed to fetch project details:', response.statusText);
         }
@@ -33,109 +47,105 @@ const Details = () => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: COLORS.hey }}>
-      <View >
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10, marginRight: 10, marginTop: 15 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesome5 name="arrow-left" size={20} color="#FFEFCD" style={{ marginTop: 5 }} />
-          </TouchableOpacity>
-          <Text style={{ fontSize: 20, fontFamily: 'Roboto-Medium', color: "#FFEFCD", marginTop: 5 }}>
-            {projectDetails?.projname} 
-          </Text>
-          <TouchableOpacity onPress={handleDrawerOpen} >
-            <ImageBackground
-              source={require('../../assets/images/Avatar.png')}
-              style={{ width: 35, height: 35 }}
-              imageStyle={{ borderRadius: 25 }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ borderTopStartRadius: 49, backgroundColor: "#fff", width: '110%', height: '100%', marginTop: 5 }}>
-          {projectDetails && (
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginLeft:40,marginRight:60,marginTop:20}}>
-              <View>
-              <Text style={{fontSize:25}}>{projectDetails?.datedebut}</Text>
-              </View>
-              <View style={{marginTop:5}}>
-              <FontAwesome5 name="chevron-right" size={20}  color="#e09132" />
-
-              </View>
-              <View>
-              <Text style={{fontSize:25}}>{projectDetails?.datefin}</Text>
-              </View>
-            </View>
-          )}
-        </View>
+    <SafeAreaView style={{backgroundColor: "#fff"}}>
+      <View style={{ flexDirection: 'row',  justifyContent: 'space-between', marginLeft: 10, marginRight: 10, marginTop: 15 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesome5 name="arrow-left" size={20} color="#31572c" style={{ marginTop: 15 }} />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 30, fontFamily: 'Roboto-Medium', color: COLORS.hey, marginTop: 5 ,marginLeft:10}}>
+          {projectDetails?.projname} 
+        </Text>
+        <TouchableOpacity onPress={handleDrawerOpen} >
+          <ImageBackground
+            source={require('../../assets/images/Avatar.png')}
+            style={{ width: 35, height: 35,marginTop: 5 }}
+            imageStyle={{ borderRadius: 25 }}
+          />
+        </TouchableOpacity>
         
-        <View style={[styles.estatisticas, styles.thisLayout]}>
-            <Text style={[styles.thisWeek, styles.thisLayout]}>Add Tasks </Text>
-        </View>
-        <View style={{ marginTop: 50, width: '85%', marginLeft: 10 }}>
-              <Card  style={styles.item}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View>
-                      <TextInput
-                      style={{height:20,marginTop:15,width:270,backgroundColor:"#ffffa",}}
-                        // value={textInput}
-                        onChangeText={(text) => handleTextInputChange(text, index)}
-                        placeholder="Enter Task"
-                      />
-                    </View>
-                    <View >
-                    
-                  </View>
-                </View>
-              </Card>
-
-          <TouchableOpacity 
-            style={styles.addButton} 
-          >
-            <FontAwesome5 name="plus" size={20} color="#fff" style={{ marginTop: 5 }} />
-          </TouchableOpacity>   
-          <Button title="Add"/>
+      </View>
+      <View>
+        
+      {projectDetails && (
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginLeft:30,marginRight:60,marginTop:20}}>
+            <View>
+              <Text style={{fontSize:25, color:COLORS.hey}}>{projectDetails?.datedebut}</Text>
+            </View>
+            <View style={{marginTop:5}}>
+              <FontAwesome5 name="chevron-right" size={20}  color="#e09132" />
+            </View>
+            <View>
+              <Text style={{fontSize:25, color:COLORS.hey}}>{projectDetails?.datefin}</Text>
+            </View>
           </View>
+        )}
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start', marginTop: 20 }}>
+        
+        <View style={styles.verticalLine}></View>
+        {projectDetails?.Tasks.map((task, index) => (
+
+        <Card style={styles.item}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View>
+              <Text>{task.task}</Text>
+              <Text>{task.responsibleName}</Text>
+            </View>
+            <View>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                items={items}
+                onValueChange={(value) => setSelectedValue(value)}
+                value={selectedValue}
+                placeholder={{ label: 'Responsible', value: null }}
+                Icon={() => {
+                  return <FontAwesome5 name="ellipsis-h" size={24} color={COLORS.hey} />;
+                }}
+                placeholderTextColor="#ccc"
+              />
+            </View>
+          </View>
+        </Card>
+       ))}
+
       </View>
     </SafeAreaView>
   );
 };
 
-
-
 export default Details;
+
 const styles = StyleSheet.create({
-  icon: {
-    right: 10,
-    top: 30,
-    transform: [{ translateY: -12 }],
+  verticalLine: {
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.hey,
+    height: 650,
+    marginRight: 40,
   },
-  thisLayout: {
-    width: 327,
-    position: "absolute",
+  item: {
+    padding: 16,
+    elevation: 4,
+    borderRadius: 8,
+    paddingTop: 20,
+    shadowColor: "#FFEFCD",
+    shadowOpacity: 0.3,
+    shadowRadius: Spacing,
+    backgroundColor: "#fffffa",
+    height: 100,
+    width: "65%",
   },
-  tasks: {
-    color: COLORS.hey,
-    fontWeight: "600",
-    lineHeight: 26,
-    fontSize: 20,
-    width: 327,
-    textAlign: "left",
-    fontFamily: "Source Sans Pro",
-    left: 0,
-    top: 0,
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    borderWidth: 0,
+    borderColor: Colors.hey,
+    borderRadius: 5,
+    padding: Spacing * 2,
+    fontFamily: Font['poppins-regular'],
+    fontSize: FontSize.small,
+    marginVertical: Spacing,
+    height: 20,
+    width: 20
   },
-  thisWeek: {
-    color: COLORS.hey,
-    fontWeight: "600",
-    lineHeight: 26,
-    fontSize: 20,
-    width: 327,
-    textAlign: "left",
-    fontFamily: "Source Sans Pro",
-    left: 0,
-    top:100,
-  },
-  estatisticas: {
-    top: 30,
-    height: 26,
-    left: 35,
-  },});
+});

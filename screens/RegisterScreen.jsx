@@ -19,7 +19,7 @@ export default function RegisterScreen() {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch("http://192.168.1.11:3000/admin/create", {
+      const response = await fetch("http://192.168.1.11:3003/admin/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,27 +84,38 @@ export default function RegisterScreen() {
             placeholder="Society Identifier"
             value={societyId}
             onChangeText={setSocietyId}
+            icon="building" // Example icon name
+
           />
           <AppTextInput
             placeholder="Name"
             value={name}
             onChangeText={setName}
+            icon="user" // Example icon name
+
           />
           <AppTextInput
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
+            icon="envelope" // Example icon name
+            
+
           />
           <AppTextInput
             placeholder="Password"
             secureTextEntry
             value={password}
             onChangeText={setPassword}
+            icon="lock" // Example icon name
+
           />
           <AppTextInput
             placeholder="Identity Card"
             value={Cin}
             onChangeText={setCin}
+            icon="id-card" // Example icon name
+
           />
         </View>
 

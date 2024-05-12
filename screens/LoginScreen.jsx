@@ -41,6 +41,11 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
               Alert.alert('Logged In Successfully');
               AsyncStorage.setItem('userId', userId.toString());
               navigation.navigate("HomeResp");
+            }else {
+              console.log(userId)
+              Alert.alert('Logged In Successfully');
+              AsyncStorage.setItem('userId', userId.toString());
+              navigation.navigate("HomeResp");
             }
           } else {
             console.log(userType)
@@ -87,8 +92,17 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
                   marginVertical: Spacing * 3,
                 }}
               >
-                 <AppTextInput placeholder="Email" value={email} onChangeText={setEmail} />
-                 <AppTextInput placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
+                 <AppTextInput placeholder="Email"
+                  value={email} 
+                 onChangeText={setEmail} 
+                 icon="envelope" 
+                 />
+                 <AppTextInput placeholder="Password"
+                  secureTextEntry 
+                  value={password} 
+                  onChangeText={setPassword}
+                  icon="lock" 
+                  />
        
               </View>
       
@@ -97,7 +111,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
                   style={{
                     fontFamily: Font["poppins-semiBold"],
                     fontSize: FontSize.small,
-                    color: Colors.primary,
+                    color: "#31572c",
                     alignSelf: "flex-end",
                   }}
                 >
@@ -141,7 +155,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
                 <Text
                   style={{
                     fontFamily: Font["poppins-semiBold"],
-                    color: Colors.text,
+                    color: "#31572c",
                     textAlign: "center",
                     fontSize: FontSize.small,
                   }}
@@ -158,7 +172,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
                 <Text
                   style={{
                     fontFamily: Font["poppins-semiBold"],
-                    color: Colors.primary,
+                    color: "#31572c",
                     textAlign: "center",
                     fontSize: FontSize.small,
                   }}

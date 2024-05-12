@@ -89,10 +89,7 @@ export default function HomeScreen() {
             marginLeft:5,
             marginRight:5
           }}>
-          <Text style={{fontSize: 30,
-           fontFamily: 'Roboto-Medium',
-           color: "#31572c",
-}}>
+          <Text style={{fontSize: 30, fontFamily: 'Roboto-Medium', color:"#31572c",marginLeft:15,marginTop:10}}>
             Hello,{userInformation?.name}
           </Text>
         <TouchableOpacity onPress={handleDrawerOpen} >
@@ -333,7 +330,7 @@ export default function HomeScreen() {
         position: "absolute",
       },
       text8Layout: {
-        width: 267,
+        width: 310,
         position: "absolute",
       },
       searchTypo: {
@@ -535,6 +532,7 @@ export default function HomeScreen() {
         left: 20,
       },
       groupChild: {
+
         left: 0,
         top: 0,
         height: 48,
@@ -562,6 +560,7 @@ export default function HomeScreen() {
         left: 12,
         top: 60,
         height: 48,
+        width:200
       },
       rectangleView: {
         backgroundColor: "#387a70",

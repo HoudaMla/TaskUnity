@@ -22,7 +22,7 @@ import HomeResp from '../screens/Gestionnaire/Home.jsx';
 import Notification from '../screens/Gestionnaire/Notification';
 import Project from'../screens/Gestionnaire/ProjectDetails';
 import Details from'../screens/Gestionnaire/Details';
-
+import homeM from '../screens/member/HomeScr';
 
 import { FontAwesome5 } from '@expo/vector-icons'
 
@@ -36,7 +36,7 @@ export default function AppNavigation() {
 
   function MyStack() {
     return (
-      <Stack.Navigator initialRouteName="HomeResp" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="LogIn" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} /> 
@@ -49,7 +49,128 @@ export default function AppNavigation() {
         <Stack.Screen name="Project" component={Project} />  
         <Stack.Screen name="Details" component={Details} />  
 
+
+        <Stack.Screen name="homeM" component={MemTab} />
+
+
       </Stack.Navigator>
+    );
+  }
+  function MemTab() {
+    return (
+      <Tab.Navigator screenOptions={{ headerShown: false }}
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          backgroundColor: 'white',
+          position: 'absolute',
+          bottom: 40,
+          marginHorizontal: 20,
+          height: 60,
+          borderRadius: 10,
+          shadowColor: '#000',
+          shadowOpacity: 0.06,
+          shadowOffset: {
+            width: 10,
+            height: 10
+          },
+          paddingHorizontal: 20,
+        }
+      }}
+      >
+        <Tab.Screen name="homeM" component={homeM}
+         options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{
+              position: 'absolute',
+              top: 20
+            }}>
+              <FontAwesome5
+                name="home"
+                size={20}
+                color={focused ? "#31572c" : 'gray'}
+              ></FontAwesome5>
+            </View>
+          )
+        }} listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: 0,
+              useNativeDriver: true
+            }).start();
+          }
+        })} />
+        <Tab.Screen name="calen" component={CalendarScreen}
+         options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{
+              position: 'absolute',
+              top: 20
+            }}>
+              <FontAwesome5
+                name="calendar-alt"
+                size={20}
+                color={focused ? "#31572c" : 'gray'}
+              ></FontAwesome5>
+            </View>
+          )
+        }} listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth() * 1,
+              useNativeDriver: true
+            }).start();
+          }
+        })} />
+        
+        <Tab.Screen name="Notification" component={Notification} 
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{
+              position: 'absolute',
+              top: 20
+            }}>
+              <FontAwesome5
+                name="bell"
+                size={20}
+                color={focused ? "#31572c" : 'gray'}
+              ></FontAwesome5>
+            </View>
+          )
+        }} listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth() * 2,
+              useNativeDriver: true
+            }).start();
+          }
+        })}/>
+         
+        <Tab.Screen name="ProfileTabs" component={ProfileScreen} 
+         options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{
+              position: 'absolute',
+              top: 20
+            }}>
+              <FontAwesome5
+                name="user-alt"
+                size={20}
+                color={focused ? "#31572c" : 'gray'}
+              ></FontAwesome5>
+            </View>
+          )
+        }} listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth() * 3,
+              useNativeDriver: true
+            }).start();
+          }
+        })}/>
+        
+      </Tab.Navigator>
+      
     );
   }
   function RespTab() {

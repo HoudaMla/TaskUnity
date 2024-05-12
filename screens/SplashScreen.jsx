@@ -24,37 +24,43 @@ export default function SplashScreen() {
         containerStyles={{ paddingHorizontal: 15 }}
         pages={[
           {
-            backgroundColor: '#2A229A',
+            backgroundColor: '#FFFC',
             image:  (
               <View style={style.lottie}>
-                <Image source={require('../assets/images/teamwork.png')} />
+                <Image source={require('../assets/images/11.png')}
+                
+                style={{ width: 400, height: 400, marginLeft: 30 }} />
                 
               </View>
             ),
-            title: 'new here',
-            subtitle: 'sign up and discover more',
+            title: 'Empowering collaboration, ',
+            subtitle: 'enhancing productivity.',
           },
           {
-            backgroundColor: '#F9A826',
+            backgroundColor: '#FFFC',
             image: (
               <View style={style.lottie}>
                {/*<LottieView source={require('../assets/animations/man-repairing-motherboard.json')} autoPlay loop />*/} 
-                <Image source={require('../assets/images/developer-team.png')} />
-              </View>
-            ),
-            title: 'already have an account',
-            subtitle: 'log in and discover more',
-          },
-          {
-            backgroundColor: '#2A229A',
-            image: (
-              <View style={style.lottie}>
-                <Image source={require('../assets/images/solved-the-problem.png')} />
+                <Image source={require('../assets/images/22.png')} 
+                style={{ width: 400, height: 400, marginLeft: 40 }} />
 
               </View>
             ),
-            title: 'first time ',
-            subtitle: 'Done with React Native Onboarding Swiper',
+            title: 'Where teamwork meets ',
+            subtitle: 'efficiency',
+          },
+          {
+            backgroundColor: '#FFFC',
+            image: (
+              <View style={style.lottie}>
+                <Image source={require('../assets/images/33.png')}                
+                 style={{ width: 400, height: 400, marginLeft: 30 }} />
+
+
+              </View>
+            ),
+            title: 'Your project, ',
+            subtitle: ' our passion for collaboration',
           },
         ]}
       />

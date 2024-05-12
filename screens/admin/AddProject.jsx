@@ -16,6 +16,8 @@ export default function AddProject() {
   const navigation = useNavigation();
 
   const [projname, setprojname] = useState("");
+  const [Description, setDescription] = useState("");
+
   const [datedebut, setdatedebut] = useState(new Date());
   const [datefin, setdatefin] = useState(new Date());
   const [text, setText] = useState('');
@@ -31,7 +33,7 @@ export default function AddProject() {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://192.168.1.11/resp/getR");
+      const response = await fetch("http://192.168.1.11:3003/resp/getR");
       const data = await response.json();
       const formattedItems = data.map(item => ({
         label: item.Name,
@@ -70,7 +72,7 @@ export default function AddProject() {
 
   const handleAdd = async () => {
     try {
-      const response = await fetch("http://192.168.1.11:3000/project/create", {
+      const response = await fetch("http://192.168.1.11:3003/project/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,6 +82,8 @@ export default function AddProject() {
           respname: selectedValue,
           datedebut: datedebut,
           datefin: datefin,
+          description: Description,
+
         }),
       });
 
@@ -98,7 +102,7 @@ export default function AddProject() {
             <TouchableOpacity onPress={() => navigation.goBack()}>
                   <FontAwesome5 name="arrow-left" size={20} color="#FFEFCD" style={{marginTop:5}} />
             </TouchableOpacity>
-          <Text style={{fontSize: 20, fontFamily: 'Roboto-Medium',color: "#FFEFCD",marginTop:5}}>
+          <Text style={{fontSize: 20, fontFamily: 'Roboto-Medium',color: "#FFEFCD",marginTop:5,marginLeft:30}}>
           Add New Project
           </Text>
           <TouchableOpacity onPress={handleDrawerOpen} >
@@ -157,8 +161,8 @@ export default function AddProject() {
           </View>
           
           <Textarea
-            value={text}
-            onChangeText={setText}
+            value={Description}
+            onChangeText={setDescription}
             placeholder="Project description..."
           />
         </View>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; // Assuming you're using FontAwesome5 icons
 import Colors from '../constants/Colors';
 import Font from '../constants/Font';
@@ -10,14 +10,20 @@ interface AppTextInputProps {
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
+  secureTextEntry?: boolean; // Optional prop for password input
 }
 
-const AppTextInput: React.FC<AppTextInputProps> = ({ placeholder, value, onChangeText }) => {
+const AppTextInput: React.FC<AppTextInputProps> = ({ placeholder, value, onChangeText, secureTextEntry,icon }) => {
   const [focused, setFocused] = useState<boolean>(false);
+  const [secure, setSecure] = useState<boolean>(secureTextEntry || false);
+
+  const toggleSecureEntry = () => {
+    setSecure(!secure);
+  };
 
   return (
     <View style={styles.container}>
-      <FontAwesome5  size={20} color={focused ? '#132a13' : Colors.darkText} style={styles.icon} />
+      <FontAwesome5 name={icon} size={20} color={Colors.darkText} style={styles.icon} />
       <TextInput
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -36,7 +42,13 @@ const AppTextInput: React.FC<AppTextInputProps> = ({ placeholder, value, onChang
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
+        secureTextEntry={secure}
       />
+      {secureTextEntry && (
+        <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIconContainer}>
+          <FontAwesome5 name={secure ? "eye-slash" : "eye"} size={20} color={Colors.darkText} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -60,5 +72,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: Spacing,
+  },
+  eyeIconContainer: {
+    padding: Spacing,
   },
 });

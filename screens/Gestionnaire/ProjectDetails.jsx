@@ -68,15 +68,39 @@ export default function ProjectDetails() {
   };
 
   const handlePickerChange = (value, index) => {
-    const newValues = [...selectedValues];
-    newValues[index] = value;
-    setSelectedValues(newValues);
+    setSelectedValues(prevState => {
+      const newValues = [...prevState]; // Create a copy of the current state array
+      newValues[index] = value; // Update the value at the specified index
+      return newValues; // Return the updated array
+    });
   };
-
-  const handleAddButtonClick = () => {
-    console.log('Text input values:', textInputs);
-    console.log('Selected values:', selectedValues);
+  
+  const handleAddButtonClick = async () => {
+    try {
+      const response = await fetch(`http://192.168.1.11:3003/project/updateP/${projectId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tasks: textInputs.map((task, index) => ({
+            task: textInputs,
+            responsibleName: selectedValues[index],
+          })),
+        }),
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      console.log(textInputs);
+      console.log(selectedValues);
+    } catch (error) {
+      console.error('Error updating project with tasks:', error);
+    }
   };
+  
+  
+  
 
   const handleDrawerOpen = () => {
     navigation.openDrawer();
@@ -130,9 +154,9 @@ export default function ProjectDetails() {
                     <View >
                     <RNPickerSelect
                       style={pickerSelectStyles}
-                      onValueChange={(value) => handlePickerChange(value, index)}
+                      onValueChange={(value) => handlePickerChange(value, index)} // Pass index parameter here
                       items={items}
-                      value={selectedValues[index]}
+                      value={selectedValues[index]} // Use selected value for the current index
                       placeholder={{ label: 'Responsible', value: null }}
                       Icon={() => {
                         return <FontAwesome5 name="chevron-down" size={24} color="#e09132" style={styles.icon} />;
@@ -148,8 +172,13 @@ export default function ProjectDetails() {
             style={styles.addButton} 
           >
             <FontAwesome5 name="plus" size={20} color="#fff" style={{ marginTop: 5 }} />
-          </TouchableOpacity>   
-          {/* <Button title="Add" onPress={handleAddButtonClick} /> */}
+          </TouchableOpacity> 
+          <TouchableOpacity 
+          onPress={handleAddButtonClick}        
+              style={styles.add} 
+          >
+            <Text>ADD</Text>
+          </TouchableOpacity>          
           </View>
           
         </View>
@@ -204,7 +233,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
-    marginLeft:140,
+    marginLeft:160,
+  },
+  add: {
+    backgroundColor: '#fff', 
+    borderColor:'#FFEFCD',
+    borderWidth:3,
+    width: 150,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginLeft:110,
   },
   container: {
     flex: 1,
