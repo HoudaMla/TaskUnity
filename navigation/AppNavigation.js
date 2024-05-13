@@ -36,7 +36,7 @@ export default function AppNavigation() {
 
   function MyStack() {
     return (
-      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="HomeResp" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="LogIn" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} /> 

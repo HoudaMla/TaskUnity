@@ -3,8 +3,11 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import COLORS from "../config/COLORS";
+import {useNavigation} from '@react-navigation/native'
 
 const CustomDrawerContent = (props) => {
+  const navigation = useNavigation();
+
   const CustomDrawerItem = ({ label, icon, onPress }) => (
     <TouchableOpacity onPress={onPress} style={styles.drawerItem}>
       <FontAwesome5 name={icon} size={20} style={styles.icon} />
@@ -31,7 +34,7 @@ const CustomDrawerContent = (props) => {
         label="Logout"
         icon="sign-out-alt"
         onPress={() => {
-          // Handle logout logic here
+          navigation.navigate("LogIn");
         }}
       />
     </DrawerContentScrollView>

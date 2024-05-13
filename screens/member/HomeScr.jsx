@@ -443,12 +443,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
  
-  graph01Icon: {
-    top: 19,
-    left: 39,
-    height: 24,
-    overflow: "hidden",
-  },
   rectangleGroup: {
     left: 0,
     top: 0,

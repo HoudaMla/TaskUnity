@@ -45,7 +45,7 @@ import {SafeAreaView,StyleSheet,Text,TextInput,TouchableOpacity,View,Alert,
               console.log(userId)
               Alert.alert('Logged In Successfully');
               AsyncStorage.setItem('userId', userId.toString());
-              navigation.navigate("HomeResp");
+              navigation.navigate("homeM");
             }
           } else {
             console.log(userType)

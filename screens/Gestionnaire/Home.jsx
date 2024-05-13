@@ -128,7 +128,7 @@ export default function Home() {
                         
                         }}
                     >
-                      <TouchableOpacity onPress={handleDrawerOpen} >
+                      <TouchableOpacity onPress={handleProjectDetails(project._id)} >
                           <ImageBackground
                     source={require('../../assets/images/try.png')}
                     style={{width: 70, height: 70 , marginTop:2,}}

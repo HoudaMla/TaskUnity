@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView, Button } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import AppTextInput from "../../components/AppTextInput";
 import RNPickerSelect from 'react-native-picker-select';
@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ProjectDetails() {
   const [textInputs, setTextInputs] = useState(['']);
   const [selectedValues, setSelectedValues] = useState(['']);
+  const [respName,setRespNam]=useState(['']);
   const [items, setItems] = useState([]);
   const navigation = useNavigation();
   const [projectId, setprojectId] = useState(null);
@@ -69,13 +70,16 @@ export default function ProjectDetails() {
 
   const handlePickerChange = (value, index) => {
     setSelectedValues(prevState => {
-      const newValues = [...prevState]; // Create a copy of the current state array
-      newValues[index] = value; // Update the value at the specified index
-      return newValues; // Return the updated array
+      const newValues = [...prevState]; 
+      newValues[index] = value; 
+      return newValues; 
     });
+    
   };
   
   const handleAddButtonClick = async () => {
+    console.log(textInputs, "textInputs");
+    console.log(selectedValues, "selectedValues");
     try {
       const response = await fetch(`http://192.168.1.11:3003/project/updateP/${projectId}`, {
         method: 'PATCH',
@@ -84,24 +88,25 @@ export default function ProjectDetails() {
         },
         body: JSON.stringify({
           tasks: textInputs.map((task, index) => ({
-            task: textInputs,
+            task: task,
             responsibleName: selectedValues[index],
           })),
         }),
       });
   
-      const data = await response.json();
-      console.log(data);
-      console.log(textInputs);
-      console.log(selectedValues);
+      if (response.ok) {
+        console.log('Project updated successfully.');
+        Alert.alert('Tasks added successfully');
+        navigation.navigate("Home");
+      } else {
+        console.error('Error updating project:', response.statusText);
+      }
     } catch (error) {
       console.error('Error updating project with tasks:', error);
+      // Handle any network or other errors here
     }
   };
   
-  
-  
-
   const handleDrawerOpen = () => {
     navigation.openDrawer();
   };
