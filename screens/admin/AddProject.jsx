@@ -26,10 +26,11 @@ export default function AddProject() {
   const [items, setItems] = useState([]);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false); 
+  const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [refreshPage]);
 
   const fetchItems = async () => {
     try {
@@ -89,7 +90,9 @@ export default function AddProject() {
 
       const data = await response.json();
       console.log(data);
-      Alert.alert('Success!', 'Project created successfully');
+      Alert.alert('Success', 'project created successfully', [{ text: 'OK', onPress: () => setRefreshPage(!refreshPage) }]);
+      navigation.navigate("Home");
+
     } catch (error) {
       Alert.alert('Error', 'Project not created');
       console.error("Project not created:", error);
@@ -198,7 +201,6 @@ const styles = StyleSheet.create({
     shadowRadius: Spacing,
   },
   buttonText: {
-    fontFamily: Font["poppins-bold"],
     color: COLORS.white,
     textAlign: "center",
     fontSize: FontSize.large,
@@ -211,7 +213,6 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "#fbfbf2",
     borderRadius: 5,
     padding: Spacing * 2,
-    fontFamily: Font['poppins-regular'],
     fontSize: FontSize.small,
     backgroundColor: "#fbfbf2",
     marginVertical: Spacing,

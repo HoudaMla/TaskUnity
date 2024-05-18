@@ -21,6 +21,7 @@ const ProfileScreen = () => {
   const [editedUserSpecialty, setEditedUserSpecialty] = useState('');
   const [editedUserSocId, setEditedUserSocId] = useState('');
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +38,7 @@ const ProfileScreen = () => {
     };
 
     fetchData();
-  }, []);
+  }, [refreshPage]);
 
   const handleEdit = () => { 
     if (userInformation) {
@@ -48,12 +49,15 @@ const ProfileScreen = () => {
       setEditModalVisible(true);
     }
   };
-
+const handleCancelEdit=()=>{
+  setEditModalVisible(false);
+  console.log("back")
+}
   const handleSaveEdit = async () => {
     try {
       const storedUserId = userInformation?._id;
 
-      const response = await fetch(`http://192.168.1.11:3003/admin/update/${storedUserId}`, { 
+      const response = await fetch(`http://192.168.1.11:3003/update/${storedUserId}`, { 
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +70,7 @@ const ProfileScreen = () => {
       });
       if (response.ok) {
         console.log(editedUserName, 'logi');
-        Alert.alert('Success', 'User updated successfully');
+        Alert.alert('Success', 'user updated successfully', [{ text: 'OK', onPress: () => setRefreshPage(!refreshPage) }]);
         setEditModalVisible(false); 
       } else {
         Alert.alert('Error', 'Failed to update User here');
@@ -101,9 +105,9 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
        
-        {/* Sign out button */}
+        {/* Edit icon */}
         <View style={{ position: 'absolute', top: 20, right: 20 }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleEdit}>
             <FontAwesome5 name="edit" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -111,10 +115,10 @@ const ProfileScreen = () => {
       
       {/* User Info Section */}
       <View style={styles.infoSection}>
-        <View style={{ marginVertical: Spacing * 2 }}>
+        <View style={{ marginVertical: Spacing * 2,marginTop:40 }}>
           <TouchableOpacity style={styles.notification}>
             <View style={styles.row}>
-              <Icon name="map-marker-radius" color="#777777" size={20} />
+              <Icon name="id-card" color="#777777" size={20} />
               <Text style={styles.infoText}>{userInformation?.speciality}</Text>
             </View>
             <View style={styles.row}>
@@ -125,7 +129,6 @@ const ProfileScreen = () => {
               <Icon name="map-marker-radius" color="#777777" size={20} />
               <Text style={styles.infoText}>Kolkata, India</Text>
             </View>
-            
           </TouchableOpacity>
         </View>    
       </View>
@@ -133,8 +136,8 @@ const ProfileScreen = () => {
       {/* Edit modal */}
       <Modal visible={editModalVisible} onDismiss={() => setEditModalVisible(false)} contentContainerStyle={styles.modalContainer}>
         <View style={{ marginLeft: 10, marginRight: 10 }}>
-          <Text style={{ fontSize: 20, fontFamily: 'Roboto-Medium', color: COLORS.hey, marginTop: 5 }}>
-            Edit Responsible
+          <Text style={{ fontSize: 20, color: COLORS.hey, marginTop: 150 ,marginLeft: 130}}>
+            Edit Profile
           </Text>
         </View>
         <AppTextInput
@@ -142,26 +145,29 @@ const ProfileScreen = () => {
           value={editedUserName}
           onChangeText={setEditedUserName}
           placeholder="Enter new name"
+          icon="user"
         />
         <AppTextInput
           style={styles.input}
           value={editedUserEmail}
           onChangeText={setEditedUserEmail}
           placeholder="Enter new email"
+          icon="envelope"
         />
         <AppTextInput
           style={styles.input}
           value={editedUserSpecialty}
           onChangeText={setEditedUserSpecialty}
           placeholder="Enter new Cin"
+          icon="id-card"
         />
-        <AppTextInput
-          style={styles.input}
-          value={editedUserSocId}
-          onChangeText={setEditedUserSocId}
-          placeholder="Enter new society ID"
-        />
-        <Button mode="contained" onPress={handleSaveEdit} style={{ backgroundColor: COLORS.hey }}>Save</Button>
+        
+        <View style={{flexDirection: 'row', justifyContent: 'space-between' ,marginLeft:50,marginRight:50}}>
+          <Button mode="contained" onPress={handleSaveEdit} style={{ backgroundColor: COLORS.hey, width:140  }}>Save</Button>
+          <Button mode="contained" onPress={handleCancelEdit} style={{ backgroundColor: COLORS.dark ,width:140 }}>cancel</Button>
+        </View>
+        
+
       </Modal>
     </SafeAreaView>
   );
@@ -173,7 +179,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
   },
   userInfoSection: {
     paddingTop: 40,
@@ -186,7 +191,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop:15
   },
   avatar: {
     borderColor: COLORS.white,
@@ -223,19 +228,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalContainer: {
-    backgroundColor: '#fff',
+    width: "80%",
+    minHeight: "50%", 
+    marginTop: "25%",
+    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     elevation: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  input: {
-    width: '100%',
-    marginBottom: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-  },
+  
 });

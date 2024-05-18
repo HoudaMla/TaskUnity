@@ -114,7 +114,6 @@ export default function Home() {
                     marginRight:5,
                   }}
                   onPress={() => handleProjectDetails(project._id)} 
-
                 >
                     <View
                         style={{

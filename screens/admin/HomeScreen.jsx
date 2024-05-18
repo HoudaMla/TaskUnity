@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TextInput, Dimensions, TouchableOpacity, ScrollView, Modal, Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Feather } from 'react-native-vector-icons';
 import COLORS from "../../config/COLORS";
 import SPACING from "../../config/SPACING";
 import Carousel from 'react-native-snap-carousel';
@@ -15,8 +14,8 @@ export default function HomeScreen() {
   const [userId, setUserId] = useState(null);
   const [userInformation, setUserInformation] = useState(null);
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null); // To store details of the selected project
-  const [modalVisible, setModalVisible] = useState(false); // To control the visibility of the modal
+  const [selectedProject, setSelectedProject] = useState(null); 
+  const [modalVisible, setModalVisible] = useState(false); 
  
   const WIDTH = Dimensions.get("screen").width;
 
@@ -45,6 +44,10 @@ export default function HomeScreen() {
 
     fetchData();
   }, []);
+  const handleProjectDetails = (projectId) => {
+    navigation.navigate("Details", { projectId });
+    console.log(projectId,"ptoh")
+  };
 
   const fetchProjectDetails = async (projectId) => {
     try {
@@ -56,8 +59,6 @@ export default function HomeScreen() {
       console.error("Error fetching project details:", error);
     }
   };
-
-
     const renderProjectItem = ({ item }) => (
     <TouchableOpacity
       style={{width: '90%',height: 120,borderRadius: 10,overflow: 'hidden',marginVertical: SPACING,marginTop:120}}
@@ -69,15 +70,14 @@ export default function HomeScreen() {
           {item.projname.charAt(0).toUpperCase()+ item.projname.substring(1)}
         </Text>
         <Text style={{fontSize: 14,color: COLORS.white,}}>
-          {item.datedebut}
+          {item.datedebut.substring(0, 10)}
         </Text>
         <Text style={{fontSize: 14,color: COLORS.white,}}>
-          {item.datefin}
+          {item.datefin.substring(0, 10)}
         </Text>
       </View>
     </TouchableOpacity>
   );
- 
   return (
     <SafeAreaView>
       <ScrollView>
@@ -92,53 +92,52 @@ export default function HomeScreen() {
           <Text style={{fontSize: 30, fontFamily: 'Roboto-Medium', color:"#31572c",marginLeft:15,marginTop:10}}>
             Hello,{userInformation?.name}
           </Text>
-        <TouchableOpacity onPress={handleDrawerOpen} >
+          <TouchableOpacity onPress={handleDrawerOpen} >
             <ImageBackground
               source={require('../../assets/images/Avatar.png')}
               style={{width: 35, height: 35}}
               imageStyle={{borderRadius: 25}}
             />
           </TouchableOpacity>
-      </View>
+        </View>
 
-      <View style={[styles.rectangleParent, styles.text8Layout]}>
-        <View style={[styles.groupChild, styles.text8Layout]} />
-        <Text style={[styles.search, styles.searchTypo]}>Search</Text>
+        <View style={[styles.rectangleParent, styles.text8Layout]}>
+          <View style={[styles.groupChild, styles.text8Layout]} />
+          <Text style={[styles.search, styles.searchTypo]}>Search</Text>
+          <ImageBackground
+            style={[styles.searchIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../../assets/images/search.png")}
+          />
+        </View>
+        <View style={[styles.rectangleView, styles.rectanglePosition]} />
         <ImageBackground
-          style={[styles.searchIcon, styles.iconLayout1]}
+          style={[styles.filterIcon1, styles.iconLayout1]}
           contentFit="cover"
-          source={require("../../assets/images/search.png")}
+          source={require("../../assets/images/filter.png")}
         />
-      </View>
-      <View style={[styles.rectangleView, styles.rectanglePosition]} />
-      <ImageBackground
-        style={[styles.filterIcon1, styles.iconLayout1]}
-        contentFit="cover"
-        source={require("../../assets/images/filter.png")}
-      />
 
         <View style={[styles.estatisticas, styles.thisLayout]}>
             <Text style={[styles.thisWeek, styles.thisLayout]}>This Week</Text>
         </View>
 
-      <Carousel
-        data={projects}
-        renderItem={renderProjectItem}
-        sliderWidth={WIDTH}
-        itemWidth={WIDTH * 0.5}
-        loop={true}
-        autoplay={true}
-        autoplayInterval={3000}
-        contentContainerCustomStyle={{ paddingLeft: SPACING * 2 }}
-        containerCustomStyle={{ overflow: 'visible' }}
-      />
-
-
+        <Carousel
+          data={projects}
+          renderItem={renderProjectItem}
+          sliderWidth={WIDTH}
+          itemWidth={WIDTH * 0.5}
+          loop={true}
+          autoplay={true}
+          autoplayInterval={3000}
+          contentContainerCustomStyle={{ paddingLeft: SPACING * 2 }}
+          containerCustomStyle={{ overflow: 'visible' }}
+        />
           <Text style={[styles.thisMonth, styles.thisLayout]}>This Month</Text>
           <Text style={[styles.seeAll, styles.searchTypo]}>see all</Text>
             <View style={{marginTop:30}}>
               {projects.map((project) => (
                 <TouchableOpacity
+                  onPress={() => handleProjectDetails(project._id)}
                   key={project.id}
                   style={{
                     width: WIDTH * 0.97,
@@ -151,10 +150,8 @@ export default function HomeScreen() {
                     marginLeft:5,
                     marginRight:5,
                 
-              
                   }}
                 >
-                  
                     <View
                         style={{
                         position: "absolute",
@@ -209,7 +206,7 @@ export default function HomeScreen() {
                             {project.datefin}
                             </Text>
                     </View>
-                        <TouchableOpacity onPress={handleDrawerOpen} >
+                        <TouchableOpacity  onPress={handleProjectDetails(project._id)} >
                           <ImageBackground
                             source={require('../../assets/images/more.png')}
                             style={{width: 20, height: 25 , marginTop:25,marginRight:0}}
@@ -219,33 +216,28 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               ))}
             </View>
-              
-
       </ScrollView>
-       
       <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
-    onRequestClose={() => {
-      setModalVisible(false);
-    }}
-  >
-    <View style={styles.centeredView}>
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>{selectedProject?.projname}</Text>
-        <Text style={styles.modalText}>{selectedProject?.projname}</Text>
-
-        {/* Render other project details here */}
-        <Button
-          title="Close"
-          onPress={() => setModalVisible(false)}
-        />
-      </View>
-    </View>
-  </Modal>
-      
-        </SafeAreaView>
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{selectedProject?.projname}</Text>
+            <Text style={styles.modalText}>{selectedProject?.projname}</Text>
+            {/* Render other project details here */}
+            <Button
+              title="Close"
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
       );
     }
     const styles = StyleSheet.create({

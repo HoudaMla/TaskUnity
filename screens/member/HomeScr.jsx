@@ -2,13 +2,31 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TextInput, Dimensions, TouchableOpacity, ScrollView, Modal, Button } from "react-native";
 import COLORS from "../../config/COLORS";
 import SPACING from "../../config/SPACING";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import OneLineCalendar from "./OneLineCalendar";
 
 export default function HomeScr() {
   const WIDTH = Dimensions.get("screen").width;
   const [selectedFile, setSelectedFile] = useState(null);
+  const [projectDetails, setProjectDetails] = useState(null);
+  
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        // const response = await fetch(`http://192.168.1.11:3003/project/getP/${projectId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProjectDetails(data);
+          setTasks(data.Tasks);
+        } else {
+          console.error('Failed to fetch project details:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching project details:', error);
+      }
+    };
+
+    fetchProjectDetails();
+  }, []);
   const handleMoreClick = async () => {
     try {
       const res = await DocumentPicker.pick({
@@ -23,7 +41,6 @@ export default function HomeScr() {
       setSelectedFile(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker
         console.log('User cancelled the picker');
       } else {
         throw err;

@@ -27,7 +27,7 @@ export default function MembersList() {
   const fetchMembers = async () => {
     try {
       const type="member"
-      const response = await fetch(`http://192.168.1.11:3000/user/${type}`);
+      const response = await fetch(`http://192.168.1.11:3003/user/${type}`);
       const data = await response.json();
       setResponsables(data);
     } catch (error) {
@@ -51,7 +51,7 @@ export default function MembersList() {
  
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/delete/${id}`, {
+      const response = await fetch(`http://192.168.1.11:3003/delete/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -66,7 +66,7 @@ export default function MembersList() {
   };
   const handleSaveEdit = async () => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/update/${editedMemberId}`, { 
+      const response = await fetch(`http://192.168.1.11:3003/update/${editedMemberId}`, { 
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -36,23 +36,17 @@ export default function AppNavigation() {
 
   function MyStack() {
     return (
-      <Stack.Navigator initialRouteName="HomeResp" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="homeM" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="LogIn" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} /> 
         <Stack.Screen name="AddNew" component={AddNew} />
         <Stack.Screen name="Home" component={MyTab} />
-        {/* <Stack.Screen name="Homee" component={MyDrawer} /> */}
-
         <Stack.Screen name="Profile" component={ProfileScreen} />
          <Stack.Screen name="HomeResp" component={RespTab} />
         <Stack.Screen name="Project" component={Project} />  
         <Stack.Screen name="Details" component={Details} />  
-
-
         <Stack.Screen name="homeM" component={MemTab} />
-
-
       </Stack.Navigator>
     );
   }
@@ -355,6 +349,7 @@ export default function AppNavigation() {
               useNativeDriver: true
             }).start();
           }
+
         })} />
         <Tab.Screen name="Add" component={AddScreen} 
         options={{

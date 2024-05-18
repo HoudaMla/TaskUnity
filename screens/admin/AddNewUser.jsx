@@ -29,7 +29,7 @@ export default function AddNewUser() {
 
   const handleAdd = async () => {
     try {
-        const response = await fetch("http://192.168.1.11:3000/create", {
+        const response = await fetch("http://192.168.1.11:3003/create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function AddNewUser() {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesome5 name="arrow-left" size={20} color="#FFEFCD" style={{ marginTop: 5 }} />
         </TouchableOpacity>
-        <Text style={{ fontSize: FontSize.xLarge, fontFamily: 'Roboto-Medium', color: "#FFEFCD", marginTop: 5 }}>
+        <Text style={{ fontSize: 20, fontFamily: 'Roboto-Medium', color: "#FFEFCD", marginTop: 5 ,marginLeft:20}}>
           Add New User
         </Text>
         <TouchableOpacity onPress={handleDrawerOpen} >
@@ -71,7 +71,7 @@ export default function AddNewUser() {
         </TouchableOpacity>
       </View>
 
-      <View style={{ borderTopStartRadius: 49, backgroundColor: "#fff", width: '100%', height: '90%', marginTop: 30 }}>
+      <View style={{ borderTopStartRadius: 49, backgroundColor: "#fff", width: '100%', height: '95%', marginTop: 20 }}>
         <View style={{ marginVertical: Spacing * 2, padding: 30 }}>
 
           <AppTextInput
@@ -79,36 +79,36 @@ export default function AddNewUser() {
             value={Name}
             onChangeText={setname}
 
-            icon={<FontAwesome5 name="plus" size={20} color="#132a13" />}
-          />
+            icon="user" 
+            />
 
           <AppTextInput
             placeholder="Email"
             value={email}
             onChangeText={setemail}
-            icon={<FontAwesome5 name="edit" size={20} color="#132a13" />}
-          />
+            icon="envelope" 
+            />
 
           <AppTextInput
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
-            icon={<FontAwesome5 name="edit" size={20} color="#132a13" />}
-          />
+            icon="lock" 
+            />
 
           <AppTextInput
             placeholder="Speciality"
             value={speciality}
             onChangeText={setspeciality}
-            icon={<FontAwesome5 name="edit" size={20} color="#132a13" />}
-          />
+            icon="folder" 
+            />
 
           <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={items}
             value={selectedValue}
             style={pickerSelectStyles}
-            placeholder={{ label: 'Responsible', value: null }}
+            placeholder={{ label: 'Type', value: null }}
 
           />
 
@@ -150,13 +150,10 @@ const styles = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    borderWidth: 1,
-    borderColor: Colors.lightPrimary,
+  
     borderRadius: 5,
     padding: Spacing * 2,
-    fontFamily: Font['poppins-regular'],
     fontSize: FontSize.small,
-    backgroundColor:"#FFEFCD",
     marginVertical: Spacing,
   },
 });

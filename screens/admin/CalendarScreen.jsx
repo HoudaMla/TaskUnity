@@ -95,7 +95,7 @@ const CalendarScreen = () => {
 
   const deleteEvent = async (eventId) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3003/meet/delete/${eventId}`, {
+      const response = await fetch(`http://192.168.1.11:3003/meet/${eventId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

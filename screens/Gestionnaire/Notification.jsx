@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    fontFamily: 'Roboto-Medium',
     color: "#FFEFCD",
     marginTop: 5,
+    marginLeft:30
   },
   avatar: {
     width: 35,

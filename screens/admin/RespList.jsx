@@ -35,11 +35,9 @@ export default function RespList() {
       console.error('Error fetching responsables:', error);
     }
   };
-
   const handleDrawerOpen = () => {
     navigation.openDrawer();
   };
-
   const handleEdit = (id) => { 
     const responsible = responsables.find(res => res._id === id); 
     setEditingResponsible(responsible);
@@ -47,10 +45,8 @@ export default function RespList() {
     setEditedResponsibleName(responsible.Name);
     setEditedResponsibleEmail(responsible.email);
     setEditedResponsibleSpecialty(responsible.speciality);
-   
     setEditModalVisible(true);
   };
-
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.11:3003/delete/${id}`, {
