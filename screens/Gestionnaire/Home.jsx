@@ -20,11 +20,11 @@ export default function Home() {
         const storedUserId = await AsyncStorage.getItem("userId");
         if (storedUserId) {
           setUserId(storedUserId);
-          const responseUser = await fetch(`http://192.168.1.11:3003/getUser/${storedUserId}`);
+          const responseUser = await fetch(`http://20.20.17.96:3003/getUser/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
         }
-        const responseProjects = await fetch('http://192.168.1.11:3003/project/getP');
+        const responseProjects = await fetch('http://20.20.17.96:3003/project/getP');
         const projectData = await responseProjects.json();
         setProjects(projectData);
       } catch (error) {

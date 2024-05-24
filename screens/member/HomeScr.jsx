@@ -8,192 +8,172 @@ export default function HomeScr() {
   const WIDTH = Dimensions.get("screen").width;
   const [selectedFile, setSelectedFile] = useState(null);
   const [projectDetails, setProjectDetails] = useState(null);
-  
+  const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    const fetchProjectDetails = async () => {
+    const fetchTasks = async () => {
       try {
-        // const response = await fetch(`http://192.168.1.11:3003/project/getP/${projectId}`);
+        const response = await fetch(`http://192.168.1.7:3003/tasks?responsibleName=mlaouah`);
         if (response.ok) {
           const data = await response.json();
-          setProjectDetails(data);
-          setTasks(data.Tasks);
+          setTasks(data);
         } else {
-          console.error('Failed to fetch project details:', response.statusText);
+          console.error('Failed to fetch tasks:', response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching project details:', error);
+        console.error('Error fetching tasks:', error);
       }
     };
 
-    fetchProjectDetails();
+    fetchTasks();
   }, []);
-  const handleMoreClick = async () => {
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-      });
-      console.log(
-        'URI : ' + res.uri,
-        'Type : ' + res.type, // mime type
-        'Name : ' + res.name,
-        'Size : ' + res.size
-      );
-      setSelectedFile(res);
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('User cancelled the picker');
-      } else {
-        throw err;
-      }
-    }
-  };
+
+  
   return (
     <SafeAreaView>
       <ScrollView>
-        <View
-          style={{flexDirection: 'row', justifyContent: 'space-between',marginBottom: 10, marginLeft:5, marginRight:5}}>
-          <Text style={{color: COLORS.hey,fontWeight: "500",lineHeight: 26,fontSize: 20,width: 327,textAlign: "left",fontFamily: "Source Sans Pro",
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginLeft: 5, marginRight: 5 }}>
+          <Text
+            style={{
+              color: COLORS.hey,
+              fontWeight: "500",
+              lineHeight: 26,
+              fontSize: 20,
+              width: 327,
+              textAlign: "left",
+              fontFamily: "Source Sans Pro",
               left: 10,
               top: 10,
-              }}>
+            }}
+          >
             Hello,
           </Text>
-        <TouchableOpacity  >
+          <TouchableOpacity>
             <ImageBackground
-              source={require('../../assets/images//Avatar.png')}
-              style={{width: 35, height: 35}}
-              imageStyle={{borderRadius: 25}}
+              source={require('../../assets/images/Avatar.png')}
+              style={{ width: 35, height: 35 }}
+              imageStyle={{ borderRadius: 25 }}
             />
           </TouchableOpacity>
-      </View>
-
-      <View style={[styles.rectangleParent, styles.text8Layout]}>
-        <View style={[styles.groupChild, styles.text8Layout]} />
-        <Text style={[styles.search, styles.searchTypo]}>Search</Text>
+        </View>
+  
+        <View style={[styles.rectangleParent, styles.text8Layout]}>
+          <View style={[styles.groupChild, styles.text8Layout]} />
+          <Text style={[styles.search, styles.searchTypo]}>Search</Text>
+          <ImageBackground
+            style={[styles.searchIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../../assets/images/search.png")}
+          />
+        </View>
+        <View style={[styles.rectangleView, styles.rectanglePosition]} />
         <ImageBackground
-          style={[styles.searchIcon, styles.iconLayout1]}
+          style={[styles.filterIcon1, styles.iconLayout1]}
           contentFit="cover"
-          source={require("../../assets/images/search.png")}
+          source={require("../../assets/images/filter.png")}
         />
-      </View>
-      <View style={[styles.rectangleView, styles.rectanglePosition]} />
-      <ImageBackground
-        style={[styles.filterIcon1, styles.iconLayout1]}
-        contentFit="cover"
-        source={require("../../assets/images/filter.png")}
-      />
-      <View style={{flexDirection: 'row',justifyContent: 'space-between',borderColor:COLORS.hey , borderWidth:2,borderRadius:9, width:"94%", height:120,marginTop:80, marginLeft:15}}>
-        <View>
-            <Text style={{fontSize:18, color:COLORS.hey, marginLeft:7,marginTop:10,padding:15 }}>You've got " 2 "</Text>
-            <Text style={{ fontSize: 15, color: "#a58e74", marginLeft: 20, }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderColor: COLORS.hey, borderWidth: 2, borderRadius: 9, width: "94%", height: 120, marginTop: 80, marginLeft: 15 }}>
+          <View>
+            <Text style={{ fontSize: 18, color: COLORS.hey, marginLeft: 7, marginTop: 10, padding: 15 }}>You've got "{tasks.length}"</Text>
+            <Text style={{ fontSize: 15, color: "#a58e74", marginLeft: 20 }}>
               Tasks for Today !!
             </Text>
+          </View>
+          <View>
+            <ImageBackground
+              source={require('../../assets/images/td.png')}
+              style={{ width: 250, height: 119, marginRight: 150, padding: 10 }}
+              imageStyle={{ borderRadius: 25 }}
+            />
+          </View>
         </View>
-        <View>
-            <ImageBackground 
-                    source={require('../../assets/images/td.png')}
-                    style={{ width: 250, height: 119,marginRight:150, padding:10 }}
-                    imageStyle={{ borderRadius: 25 }}
-                    />
-        </View>
-
-      </View>
         <View style={{ marginTop: 20, marginLeft: 1 }}>
-        <OneLineCalendar currentDay={new Date().getDate()} />
+          <OneLineCalendar currentDay={new Date().getDate()} />
         </View>
         <View style={[styles.estatisticas, styles.thisLayout]}>
-            <Text style={[styles.thisWeek, styles.thisLayout]}>My Tasks </Text>
+          <Text style={[styles.thisWeek, styles.thisLayout]}>My Tasks</Text>
         </View>
-      
-             
-            <View style={{marginTop:50}}>
-              {/* {projects.map((project) => ( */}
-                <TouchableOpacity
-                  // key={project.id}
-                  style={{
-                    width: WIDTH * 0.97,
-                    height: WIDTH * 0.25,
-                    overflow: "hidden",
-                    borderRadius: SPACING * 2,
-                    padding: SPACING,
-                    margin:SPACING,
-                    backgroundColor:"#ffff",
-                    marginLeft:5,
-                    marginRight:5,
-                  }}
-                  // onPress={() => handleProjectDetails(project._id)} 
-
-                >
-                    <View
-                        style={{
-                        position: "absolute",
-                        flexDirection: 'row',
-                        zIndex: 1,
-                        height: "100%",
-                        width: "100%",
-                        justifyContent: "space-between",
-                        padding: SPACING,
-                        
-                        }}
-                    >
-
-                      <TouchableOpacity  >
-                          <ImageBackground
+  
+        <View style={{ marginTop: 50 }}>
+          {tasks.map((task, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{
+                width: WIDTH * 0.97,
+                height: WIDTH * 0.25,
+                overflow: "hidden",
+                borderRadius: SPACING * 2,
+                padding: SPACING,
+                margin: SPACING,
+                backgroundColor: "#fff",
+                marginLeft: 5,
+                marginRight: 5,
+              }}
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  flexDirection: 'row',
+                  zIndex: 1,
+                  height: "100%",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  padding: SPACING,
+                }}
+              >
+                <TouchableOpacity>
+                  <ImageBackground
                     source={require('../../assets/images/tasks.png')}
-                    style={{width: 70, height: 70 , marginTop:2,}}
-                          />
-                        </TouchableOpacity>
-                        <View
-                        style={{
-                        position: "absolute",
-                        marginTop:5,
-                        zIndex: 1,
-                        height: "100%",
-                        width: "100%",
-                        justifyContent: "space-between",
-                        padding: SPACING,
-                        }}
-                        >
-                          <Text
-                              style={{
-                                marginTop:14,
-
-                                  fontSize: SPACING * 2,
-                                  color: COLORS.hey,
-                                  fontWeight: "550",
-                                  marginLeft: 80,
-                                
-                              }}
-                              >
-                        {/* {project.projname.charAt(0).toUpperCase()+ project.projname.substring(1)} */}
-                        </Text>
-                            <Text
-                            style={{
-                              marginTop:8,
-                                fontSize: SPACING * 1.5,
-                                color:"#C6C6D6",
-                                fontWeight: "450",
-                                marginLeft: 80,
-                            }}
-                            >
-                            {/* {project.datefin} */}
-                            </Text>
-                    </View>
-                        <TouchableOpacity  >
-                          <ImageBackground
-                            source={require('../../assets/images/more.png')}
-                            style={{width: 20, height: 25 , marginTop:25,marginRight:0}}
-                          />
-                        </TouchableOpacity>
-                    </View>
+                    style={{ width: 70, height: 70, marginTop: 2 }}
+                  />
                 </TouchableOpacity>
-              {/* ))} */}
-            </View>
-              
-
-      </ScrollView>      
-        </SafeAreaView>
-      );
+                <View
+                  style={{
+                    position: "absolute",
+                    marginTop: 5,
+                    zIndex: 1,
+                    height: "100%",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    padding: SPACING,
+                  }}
+                >
+                  <Text
+                    style={{
+                      marginTop: 15,
+                      fontSize: SPACING * 2,
+                      color: COLORS.hey,
+                      fontWeight: "550",
+                      marginLeft: 80,
+                    }}
+                  >
+                    {task.task}
+                  </Text>
+                  {/* <Text
+                    style={{
+                      marginTop: 8,
+                      fontSize: SPACING * 1.5,
+                      color: "#C6C6D6",
+                      fontWeight: "450",
+                      marginLeft: 80,
+                    }}
+                  >
+                    {task.task}
+                  </Text> */}
+                </View>
+                <TouchableOpacity>
+                  <ImageBackground
+                    source={require('../../assets/images/more.png')}
+                    style={{ width: 20, height: 25, marginTop: 25, marginRight: 0 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+  
 }
 const styles = StyleSheet.create({
   serviceRow: {

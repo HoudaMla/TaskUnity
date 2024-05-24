@@ -22,7 +22,7 @@ const Details = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        const response = await fetch(`http://192.168.1.11:3003/project/getP/${projectId}`);
+        const response = await fetch(`http://20.20.17.96:3003/project/getP/${projectId}`);
         if (response.ok) {
           const data = await response.json();
           setProjectDetails(data);

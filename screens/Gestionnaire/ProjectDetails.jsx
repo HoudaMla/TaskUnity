@@ -27,7 +27,7 @@ export default function ProjectDetails() {
         const storedUserId = await AsyncStorage.getItem("projectId");
         if (storedUserId) {
           setprojectId(storedUserId);
-          const responseUser = await fetch(`http://192.168.1.11:3003/project/getP/${storedUserId}`);
+          const responseUser = await fetch(`http://20.20.17.96:3003/project/getP/${storedUserId}`);
           const userData = await responseUser.json();
           setUserInformation(userData);
         }
@@ -44,7 +44,7 @@ export default function ProjectDetails() {
   const fetchResponsables = async () => {
     try {
       const type = "member";
-      const response = await fetch(`http://192.168.1.11:3003/user/${type}`);
+      const response = await fetch(`http://20.20.17.96:3003/user/${type}`);
       const data = await response.json();
       const formattedItems = data.map(item => ({
         label: item.Name,
@@ -81,7 +81,7 @@ export default function ProjectDetails() {
     console.log(textInputs, "textInputs");
     console.log(selectedValues, "selectedValues");
     try {
-      const response = await fetch(`http://192.168.1.11:3003/project/updateP/${projectId}`, {
+      const response = await fetch(`http://20.20.17.96:3003/project/updateP/${projectId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
